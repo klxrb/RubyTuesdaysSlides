@@ -1,0 +1,6 @@
+source 'http://rubygems.org'
+gem 'http'
+gem 'reel'
+gem 'shotgun'
+gem 'sinatra'
+gem 'webrick'
