@@ -1,7 +1,7 @@
 Date & Location
 ---------------
 Online @ Youtube.
-In person @ CaterSpot
+In person @ CoinGecko
 
 How to run this
 ---------------
