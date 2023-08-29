@@ -1,6 +1,7 @@
 Date & Location
 ---------------
 5th September 2023 @ CoinGecko's office
+Online @ Youtube.
 
 How to run this
 ---------------
