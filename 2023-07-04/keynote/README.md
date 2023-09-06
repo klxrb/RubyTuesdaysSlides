@@ -1,6 +1,7 @@
 Date & Location
 ---------------
 Online @ Youtube.
+In person @ CaterSpot
 
 How to run this
 ---------------
