@@ -2,6 +2,7 @@ Date & Location
 ---------------
 Online @ Youtube.
 In person @ SuriaLabs
+With support from Forkwell by Grooves
 
 How to run this
 ---------------
