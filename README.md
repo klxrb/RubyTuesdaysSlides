@@ -7,7 +7,7 @@ Every month we need to create the same folder structure based on year, month, an
 
 From the top folder, run the following
 ```
-  bin/copy_skeleton.sh 2024-02-06 2024-03-05
+  bin/copy_skeleton.sh 2024-03-05 2024-05-06
 ```
 
 After that, all the new folder will be setup and you must change the content: venue, speakers, etc...
