@@ -1,5 +1,6 @@
 Date & Location
 ---------------
+7th May 2024 @ Hivekind's office
 Online @ Youtube.
 
 How to run this
