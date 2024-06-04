@@ -123,6 +123,107 @@
             <p>Hivekind: <a href="https://hivekind.com/careers">https://hivekind.com/careers</a></p>
             <p>CoinGecko: <a href="https://coingecko.com/en/careers">https://coingecko.com/en/careers</a></p>
           </section>
+
+          <section>
+            <h2>Parking Lot</h2>
+          </section>
+          <section>
+            <p>RedDotRuby Conference is back: <a href="">https://reddotrubyconf.com/</a></p>
+            <img src="/images/reddotruby_2024.png" style="max-width:60%"/>
+          </section>
+          <section>
+            <p>Rails Survey is up: <a href="">https://railsdeveloper.com/survey/</a></p>
+          </section>
+          <section>
+            <p>Some interesting news from <a href="https://rubyweekly.com/issues/705">Ruby Weekly</a></p>
+          </section>
+          <section>
+            <a href="https://www.ruby-lang.org/en/news/2024/05/30/ruby-3-3-2-released/"><p>Ruby 3.2.2 released</p></a>
+            <img src="/images/ruby 3.2.2 released.png" />
+          </section>
+          <section>
+            <a href="https://highperformancesqlite.com/interviews/dhh"><p>David Heinemeier Hansson on SQLite</p></a>
+            <img src="https://i.vimeocdn.com/video/1858177517-0bf63356607500b10925de648be6efb7b58ce2e1a850eae63cd012125edc667f-d?mw=1100&mh=619&q=70" />
+          </section>
+          <section>
+            <a href="https://greg.molnar.io/blog/a-single-file-rails-application/"><p>A Single file Rails Application</p></a>
+            <pre style="font-size: x-small">
+# frozen_string_literal: true
+require 'bundler/inline'
+
+gemfile(true) do
+  source 'https://rubygems.org'
+
+  gem 'rails', '~> 7.0.4'
+  gem 'sqlite3'
+end
+
+require 'rails/all'
+database = 'development.sqlite3'
+
+ENV['DATABASE_URL'] = "sqlite3:#{database}"
+ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: database)
+ActiveRecord::Base.logger = Logger.new(STDOUT)
+ActiveRecord::Schema.define do
+  create_table :posts, force: true do |t|
+  end
+
+  create_table :comments, force: true do |t|
+    t.integer :post_id
+  end
+end
+
+class App < Rails::Application
+  config.root = __dir__
+  config.consider_all_requests_local = true
+  config.secret_key_base = 'i_am_a_secret'
+  config.active_storage.service_configurations = { 'local' => { 'service' => 'Disk', 'root' => './storage' } }
+
+  routes.append do
+    root to: 'welcome#index'
+  end
+end
+
+class WelcomeController < ActionController::Base
+  def index
+    render inline: 'Hi!'
+  end
+end
+
+App.initialize!
+
+run App
+</pre>
+          </section>
+          <section>
+            <a href="https://www.johnhawthorn.com/2024/ruby-might-be-faster-than-you-think/"><p>Ruby might be faster than you think</p></a>
+            <pre>
+require 'crystalruby'
+require 'benchmark'
+
+module Fibonnaci
+  crystalize [n: :int32] => :int32
+  def fib_cr(n)
+    a = 0
+    b = 1
+    n.times { a, b = b, a + b }
+    a
+  end
+
+  module_function
+
+  def fib_rb(n)
+    a = 0
+    b = 1
+    n.times { a, b = b, a + b }
+    a
+  end
+end
+
+puts(Benchmark.realtime { 1_000_000.times { Fibonnaci.fib_rb(30) } })
+puts(Benchmark.realtime { 1_000_000.times { Fibonnaci.fib_cr(30) } })
+</pre>
+          </section>
         </section>
 
         <section>
@@ -130,7 +231,6 @@
             <h2>See you all next month!</h2>
           </div>
         </section>
-
       </div>
     </div>
 
