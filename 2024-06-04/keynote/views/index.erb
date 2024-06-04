@@ -29,7 +29,7 @@
 
         <section>
           <img src="images/ruby-tuesdays-template.jpg">
-          <p>Ruby Tuesday - KL #107</p>
+          <p>Ruby Tuesday - KL #108</p>
         </section>
 
         <section>
@@ -80,8 +80,8 @@
         <section>
           <section>
             Today's venue, food, and drinks are sponsored by<br />
-            <img src="/images/hivekind-logo-white.png" height="150" style="border: 0px"><br />
-            Hire a dedicated development team focused on your success.
+            <img src="/images/shortcut-logo-black.jpg" height="150" style="border: 0px"><br />
+            Whether you’re looking for app design, development or consultancy, we have what it takes to take your app to the next level!
           </section>
         </section>
 
@@ -110,16 +110,9 @@
         <section>
           <section>
             <div>
-              <h2>Introducing OyenCov: and a few of my random hacks in developing Rails apps</h2>
+              <h2>Dev/Staging/CI/Prod (dis)parity</h2>
               <br />
-              <h3>by Anonoz</h3>
-            </div>
-          </section>
-          <section>
-            <div>
-              <h2>Instance Variable in an Object Shape World</h2>
-              <br />
-              <h3>by Guoy</h3>
+              <h3>by Helio Cola</h3>
             </div>
           </section>
         </section>
@@ -136,14 +129,94 @@
             <p>Rails Survey is up: <a href="">https://railsdeveloper.com/survey/</a></p>
           </section>
           <section>
-            <p>Anybody writing a new blog post?</p>
+            <p>Some interesting news from <a href="https://rubyweekly.com/issues/705">Ruby Weekly</a></p>
           </section>
           <section>
-            <p>When is your...</p>
-            <ul>
-              <li>... next Rails upgrade?</li>
-              <li>... next Ruby upgrade?</li>
-            </ul>
+            <a href="https://www.ruby-lang.org/en/news/2024/05/30/ruby-3-3-2-released/"><p>Ruby 3.2.2 released</p></a>
+            <img src="/images/ruby 3.2.2 released.png" />
+          </section>
+          <section>
+            <a href="https://highperformancesqlite.com/interviews/dhh"><p>David Heinemeier Hansson on SQLite</p></a>
+            <img src="https://i.vimeocdn.com/video/1858177517-0bf63356607500b10925de648be6efb7b58ce2e1a850eae63cd012125edc667f-d?mw=1100&mh=619&q=70" />
+          </section>
+          <section>
+            <a href="https://greg.molnar.io/blog/a-single-file-rails-application/"><p>A Single file Rails Application</p></a>
+            <pre style="font-size: x-small">
+# frozen_string_literal: true
+require 'bundler/inline'
+
+gemfile(true) do
+  source 'https://rubygems.org'
+
+  gem 'rails', '~> 7.0.4'
+  gem 'sqlite3'
+end
+
+require 'rails/all'
+database = 'development.sqlite3'
+
+ENV['DATABASE_URL'] = "sqlite3:#{database}"
+ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: database)
+ActiveRecord::Base.logger = Logger.new(STDOUT)
+ActiveRecord::Schema.define do
+  create_table :posts, force: true do |t|
+  end
+
+  create_table :comments, force: true do |t|
+    t.integer :post_id
+  end
+end
+
+class App < Rails::Application
+  config.root = __dir__
+  config.consider_all_requests_local = true
+  config.secret_key_base = 'i_am_a_secret'
+  config.active_storage.service_configurations = { 'local' => { 'service' => 'Disk', 'root' => './storage' } }
+
+  routes.append do
+    root to: 'welcome#index'
+  end
+end
+
+class WelcomeController < ActionController::Base
+  def index
+    render inline: 'Hi!'
+  end
+end
+
+App.initialize!
+
+run App
+</pre>
+          </section>
+          <section>
+            <a href="https://www.johnhawthorn.com/2024/ruby-might-be-faster-than-you-think/"><p>Ruby might be faster than you think</p></a>
+            <pre>
+require 'crystalruby'
+require 'benchmark'
+
+module Fibonnaci
+  crystalize [n: :int32] => :int32
+  def fib_cr(n)
+    a = 0
+    b = 1
+    n.times { a, b = b, a + b }
+    a
+  end
+
+  module_function
+
+  def fib_rb(n)
+    a = 0
+    b = 1
+    n.times { a, b = b, a + b }
+    a
+  end
+end
+
+puts(Benchmark.realtime { 1_000_000.times { Fibonnaci.fib_rb(30) } })
+puts(Benchmark.realtime { 1_000_000.times { Fibonnaci.fib_cr(30) } })
+</pre>
           </section>
         </section>
 
